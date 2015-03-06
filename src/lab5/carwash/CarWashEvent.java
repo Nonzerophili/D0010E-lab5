@@ -5,22 +5,36 @@ import lab5.simulator.SimState;
 
 public class CarWashEvent extends Event{
 
-	boolean START = false;
-	boolean STOP = false;
-	boolean ARRIVE = false;
-	boolean LEAVE = false;
+	SimState ss;
 	
-	public void Execute(EventQueue EQ, SimState SS){
-		if(START){
+	/**
+	 * 0 Start
+	 * 1 Stop
+	 * 2 Arrive
+	 * 3 Leave
+	 */
+	private int eventStatus = 0;	
+	
+	public void Execute(SimState SS){
+		
+		if(eventStatus == 0){
+			SS.setRUNNING(true);
+		}
+		if(eventStatus == 1){
+			SS.setRUNNING(false);
+		}
+		if(eventStatus == 2){
+			
+			if(){
+				
+			}
+			if(FIFO.isEmpty()){
+				
+			}
+			
 			
 		}
-		if(STOP){
-			
-		}
-		if(ARRIVE){
-			
-		}
-		if(LEAVE){
+		if(eventStatus == 3){
 	
 		}
 	}

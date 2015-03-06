@@ -17,7 +17,13 @@ public class Simulator{
 	 */
 	public Simulator(EventQueue EQ, CarWashState CWS, CarWashView CWV){
 		
-		
-		
+		while(RUNNING){
+			
+			if(EQ.numberOfEventsInQueue() != 0){
+				EQ.getFirstEvent().Execute(SS);
+			}
+			
+			
+		}
 	}
 }
