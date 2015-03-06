@@ -1,5 +1,6 @@
 package lab5.simulator;
 
-public class Event {
-
+public abstract class Event {
+	
+	public abstract void Execute(EventQueue EQ,SimState SS);
 }
