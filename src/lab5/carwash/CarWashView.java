@@ -15,8 +15,24 @@ public class CarWashView extends SimView implements Observer {
 		System.out.println("Seed = ");
 		System.out.println("Max Queue size: ");
 		System.out.println("----------------------------------------------------");
+		System.out.format("");
 	}
 	public void update(Observable arg0, Object arg1){	//(arg0 Object that is being observed. arg1 Object that have changed.)
+		
+		CarWashEvent carWashEvent = (CarWashEvent)arg1;
+		
+		if(carWashEvent.START){
+			initialPrint(); // hmm
+		}
+		if(carWashEvent.STOP){
+			endPrint();
+		}
+		if(carWashEvent.ARRIVE){
+			System.out.format("");
+		}
+		if(carWashEvent.LEAVE){
+			
+		}
 		
 	}
 	public void endPrint(){

@@ -7,6 +7,4 @@ public class SimState extends Observable {
 	private static double currentTime = 0;
 	private static Event currentEvent = null;
 	
-	
-	
 }
