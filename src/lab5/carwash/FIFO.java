@@ -6,15 +6,13 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class FIFO{
-	
-	private static int maxSize;
 
-	ArrayList<Car> carQueue = new ArrayList<Car>();
+	static ArrayList<Car> carQueue = new ArrayList<Car>();
 	
-	public boolean isEmpty(){
+	public static boolean isEmpty(){
 		return carQueue.isEmpty();
 	}
-	public void add(Car car){
+	public static void add(Car car){
 		carQueue.add(car);
 	}
 	public void removeFirst() throws NoSuchElementException{
@@ -29,10 +27,10 @@ public class FIFO{
 		}
 		return carQueue.get(0);
 	}
-	public int getSize(){
+	public static int getSize(){
 		return carQueue.size();
 	}
-	public int maxSize(){
-		return maxSize;
+	public static int maxSize(){
+		return CarWashState.maxQueueSize;
 	}
 }

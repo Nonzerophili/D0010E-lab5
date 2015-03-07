@@ -9,9 +9,9 @@ public class CarFactory{
 	 * With the class own private variable the numberOfCars variable is incremented at each call to the method.
 	 * @return
 	 */
-	public void newCar(){
+	public static Car newCar(){
 		carCount++;
-		new Car(carCount);
+		return new Car(carCount);
 	}
 	/**
 	 * 

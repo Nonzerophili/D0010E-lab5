@@ -3,6 +3,7 @@ package lab5.carwash;
 public class Car {
 	
 	private int carID;
+	String previousMachine = "";
 	
 	/**
 	 * Car Constructor, creates a Car object with an ID.
@@ -17,5 +18,8 @@ public class Car {
 	 */
 	public int carID(){
 		return carID;
+	}
+	public String previousMachine(){
+		return previousMachine;
 	}
 }

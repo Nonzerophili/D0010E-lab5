@@ -6,12 +6,17 @@ import lab5.simulator.Simulator;
 
 public class MainSim {
 
+	
+	
 	public static void main(String[] args) {
 		EventQueue EQ = new EventQueue();
 		CarWashState CWS = new CarWashState();
 		CarWashView CWV = new CarWashView();
 		
-		CWV.addObserver(CWV);
+		//CWV.addObserver(CWV);
 		new Simulator(EQ,CWS,CWV);
+		
+		
+		CWV.initialPrint();
 	}
 }

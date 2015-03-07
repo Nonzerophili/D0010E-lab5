@@ -15,16 +15,16 @@ public class CarWashView extends SimView implements Observer {
 		System.out.println("Seed = ");
 		System.out.println("Max Queue size: ");
 		System.out.println("----------------------------------------------------");
-		System.out.format("%d2s4 ");
+		String.format("%10.3f%n", "Time");
 	}
 	public void update(Observable observedObject, Object modifiedObject){	//(arg0 Object that is being observed. arg1 Object that have changed.)
 		
 		CarWashEvent carWashEvent = (CarWashEvent)modifiedObject;
 		
-		if(carWashEvent.START){
-			initialPrint(); // hmm
+		/*if(){
+			initialPrint(); //hmm
 		}
-		if(carWashEvent.STOP){
+		if(){
 			endPrint();
 		}
 		if(carWashEvent.ARRIVE){
@@ -32,7 +32,7 @@ public class CarWashView extends SimView implements Observer {
 		}
 		if(carWashEvent.LEAVE){
 			
-		}
+		}*/
 		
 	}
 	public void endPrint(){

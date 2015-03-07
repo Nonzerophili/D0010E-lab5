@@ -2,38 +2,42 @@ package lab5.carwash;
 
 public class CarWashState {
 
-	private static int rejectedCars = 0;			//Total number of cars that have been rejected from both the slow and fast carWashes combined.
+	static int rejectedCars = 0;			//Total number of cars that have been rejected from both the slow and fast carWashes combined.
 	
 	private static double fastWashTime = 0;
 	private static double slowWashTime = 0;
 	
 	private static int totalFastMachines = 0;
 	private static int totalSlowMachines = 0;
-	private static int availableFastMachines = 0;
-	private static int availableSlowMachines = 0;
-	
-	
-	private static boolean fastWashEmpty = true;
-	private static boolean slowWashEmpty = true;
+	static int availableFastMachines = 0;
+	static int availableSlowMachines = 0;
 	
 	private static double totalWashTime = 0;
 	private static double queueTime = 0;
 	private static int seed = 1234;
 	
+	private static double distributionFastLower = 0;
+	private static double distributionFastUpper = 0;
+	
+	private static double distributionSlowUpper = 0;
+	private static double distributionslowUpper = 0;
+	
+	private static double lambda = 0;
+	
+	static int maxQueueSize = 0;
 	
 	
-	
-	public boolean fastIsEmpty(){
-		return (fastWashEmpty) ? true : false;
+	public static boolean fastAvailable(){
+		return (availableFastMachines > 0) ? true : false;
 	}
-	public boolean slowIsEmpty(){
-		return (slowWashEmpty) ? true : false;
+	public static boolean slowAvailable(){
+		return (availableSlowMachines > 0) ? true : false;
 	}
 	public static int slowWashesAmount(){
-		return slowWashesAmount;
+		return totalSlowMachines;
 	}
 	public static int fastWashesAmount(){
-		return fastWashesAmount;
+		return totalFastMachines;
 	}
 	public static int rejectedCars(){
 		return rejectedCars;
