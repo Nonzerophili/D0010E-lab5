@@ -1,5 +1,6 @@
 package lab5.simulator;
 import lab5.simulator.EventQueue;
+import lab5.carwash.CarWashEvent;
 import lab5.carwash.CarWashState;
 import lab5.carwash.CarWashView;
 
@@ -15,15 +16,20 @@ public class Simulator{
 	 * @param CWS
 	 * @param CWV
 	 */
-	public Simulator(EventQueue EQ, CarWashState CWS, CarWashView CWV){
+	public Simulator(SortedSequence SSeq, CarWashState CWS, CarWashView CWV){
+		
+		CWV.initialPrint();
 		
 		while(RUNNING){
-			
 			if(EQ.numberOfEventsInQueue() != 0){
-				EQ.getFirstEvent().Execute(SS);
+				Event currentEvent = EQ.getFirstEvent();
+				if(currentEvent.getEventType() == "STOP"){
+					break;
+				}
+				currentEvent.Execute(SSeq,SS);
 			}
 			
-			
 		}
+		CWV.endPrint();
 	}
 }

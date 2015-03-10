@@ -1,22 +1,19 @@
 package lab5;
 import lab5.simulator.EventQueue;
+import lab5.simulator.SortedSequence;
 import lab5.carwash.CarWashState;
 import lab5.carwash.CarWashView;
 import lab5.simulator.Simulator;
 
 public class MainSim {
-
-	
 	
 	public static void main(String[] args) {
-		EventQueue EQ = new EventQueue();
+		SortedSequence SSeq = new SortedSequence();
 		CarWashState CWS = new CarWashState();
 		CarWashView CWV = new CarWashView();
-		
-		//CWV.addObserver(CWV);
-		new Simulator(EQ,CWS,CWV);
+		CWS.addObserver(CWV);
 		
 		
-		CWV.initialPrint();
+		new Simulator(SSeq,CWS,CWV);
 	}
 }

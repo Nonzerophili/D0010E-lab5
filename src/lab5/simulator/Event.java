@@ -2,6 +2,8 @@ package lab5.simulator;
 
 public abstract class Event {
 	
-	public abstract void Execute(SimState SS);
-	
+	protected double time; 	//Exponential
+		
+	public abstract String getEventType();
+	public abstract void Execute(SortedSequence SortedSequence, SimState SS);
 }
