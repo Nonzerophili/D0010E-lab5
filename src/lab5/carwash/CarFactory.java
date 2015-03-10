@@ -17,7 +17,7 @@ public class CarFactory{
 	 * 
 	 * @return
 	 */
-	public int numberOfCars(){
+	public static int numberOfCars(){
 		return carCount;
 	}
 }

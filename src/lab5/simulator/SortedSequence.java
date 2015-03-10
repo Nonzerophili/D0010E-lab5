@@ -7,7 +7,9 @@ public class SortedSequence {
 	EventQueue EQ;
 	
 	public ArrayList<Event> sortEvents(Event event){
-		
+		System.out.print("herp");
+		System.out.print(EQ.getArray());
+		System.out.print("derp");
 		ArrayList<Event> sortedEventQueue = EQ.getArray();
 		for(int i = 0;i<EQ.getArray().size();i++){
 			if((event.time) < EQ.getArray().get(i).time){

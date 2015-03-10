@@ -5,22 +5,22 @@ import lab5.carwash.CarWashState;
 import lab5.carwash.CarWashView;
 
 public class Simulator{
-	
-	private static boolean RUNNING;
+	private SortedSequence SSeq;
 	private EventQueue EQ;
 	private SimState SS;
 	private SimView SV;
 	
-	/**
-	 * @param EQ
-	 * @param CWS
-	 * @param CWV
-	 */
-	public Simulator(SortedSequence SSeq, CarWashState CWS, CarWashView CWV){
+	public <E>Simulator(SortedSequence SSeq, E SS, SimView SV, EventQueue EQ){
+		this.SSeq = SSeq;
+		this.SS = (SimState)SS;
+		this.EQ = EQ;
+		this.SV = SV;
+	}
+	
+	public void run(){
 		
-		CWV.initialPrint();
-		
-		while(RUNNING){
+		SV.initialPrint();
+		while(SS.isRunning() == true){
 			if(EQ.numberOfEventsInQueue() != 0){
 				Event currentEvent = EQ.getFirstEvent();
 				if(currentEvent.getEventType() == "STOP"){
@@ -30,6 +30,6 @@ public class Simulator{
 			}
 			
 		}
-		CWV.endPrint();
+		SV.endPrint();
 	}
 }

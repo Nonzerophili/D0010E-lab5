@@ -4,7 +4,8 @@ import lab5.simulator.SimState;
 import lab5.simulator.SortedSequence;
 
 public class CarWashEvent extends Event {
-
+	
+	FIFO FIFO;
 	SimState ss;
 	private String eventType = "";
 	
@@ -52,6 +53,12 @@ public class CarWashEvent extends Event {
 		if(this.eventType == "LEAVE"){
 			
 			
+			
+			if(FIFO.getSize() == 0){
+				/*if(){
+					
+				}*/
+			}
 			
 		}
 	}

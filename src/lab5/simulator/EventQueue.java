@@ -14,4 +14,7 @@ public class EventQueue {
 	public int numberOfEventsInQueue(){
 		return eventQueue.size();
 	}
+	public void addEvent(Event e){
+		eventQueue.add(e);
+	}
 }

@@ -12,7 +12,7 @@ public class FIFO{
 	public static boolean isEmpty(){
 		return carQueue.isEmpty();
 	}
-	public static void add(Car car){
+	public void add(Car car){
 		carQueue.add(car);
 	}
 	public void removeFirst() throws NoSuchElementException{
@@ -30,7 +30,7 @@ public class FIFO{
 	public static int getSize(){
 		return carQueue.size();
 	}
-	public static int maxSize(){
+	public int maxSize(){
 		return CarWashState.maxQueueSize;
 	}
 }
