@@ -2,15 +2,16 @@ package lab5.carwash;
 import lab5.random.ExponentialRandomStream;
 import lab5.random.UniformRandomStream;
 import lab5.simulator.Event;
+import lab5.simulator.SimState;
 
-public class CarWashState {
+public class CarWashState extends SimState{
 
 	static FIFO FIFO;
 
-	static int totalFastMachines = 0;
-	static int totalSlowMachines = 0;
-	static int availableFastMachines = 0;
-	static int availableSlowMachines = 0;
+	static int totalFastMachines = 2;
+	static int totalSlowMachines = 2;
+	static int availableFastMachines = 2;
+	static int availableSlowMachines = 2;
 	
 	static int maxQueueSize = 5;
 	static int queueSize = 0;

@@ -1,13 +1,20 @@
 package lab5.carwash;
 import java.util.Observable;
 import java.util.Observer;
+
+import lab5.simulator.SimState;
 import lab5.simulator.SimView;
 import lab5.carwash.CarWashState;
 
 public class CarWashView extends SimView implements Observer {
 
-	//CarWashState CWS;
-	//FIFO FIFO;
+	CarWashState CWS;
+	static FIFO FIFO;
+	
+	public CarWashView(SimState CWS){		//Måste fixas.
+		//super(CWS);
+		//this.CWS = (CarWashState) SS;
+	}
 	
 	public void initialPrint(){
 		System.out.println("Fast CarWashes: "+ CarWashState.getTotalFastMachines());
@@ -28,12 +35,12 @@ public class CarWashView extends SimView implements Observer {
 		if(carWashEvent.getEventType() == "ARRIVE"){
 			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"CARID !!","Arrive",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
 		}
-		/*if(carWashEvent.getEventType() == "LEAVE"){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CWS.currentTime,CWS.availableFastMachines,CWS.availableSlowMachines,"CARID !!","Leave",CWS.totalIdleTime,CWS.totalQueueTime,FIFO.getSize(),CWS.rejectedCars());
+		if(carWashEvent.getEventType() == "LEAVE"){
+			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"CARID !!","Leave",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
 		}
 		if(carWashEvent.getEventType() == "STOP"){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CWS.currentTime,CWS.availableFastMachines,CWS.availableSlowMachines,"-","Stop",CWS.totalIdleTime,CWS.totalQueueTime,FIFO.getSize(),CWS.rejectedCars());
-		}*/
+			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"-","Stop",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
+		}
 	}
 	public void endPrint(){
 		System.out.println("----------------------------------------------------");

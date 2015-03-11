@@ -1,8 +1,5 @@
 package lab5.simulator;
 import lab5.simulator.EventQueue;
-import lab5.carwash.CarWashEvent;
-import lab5.carwash.CarWashState;
-import lab5.carwash.CarWashView;
 
 public class Simulator{
 	private SortedSequence SSeq;
@@ -10,9 +7,9 @@ public class Simulator{
 	private SimState SS;
 	private SimView SV;
 	
-	public <E>Simulator(SortedSequence SSeq, E SS, SimView SV, EventQueue EQ){
+	public Simulator(SortedSequence SSeq, SimState SS, SimView SV, EventQueue EQ){
 		this.SSeq = SSeq;
-		this.SS = (SimState)SS;
+		this.SS = SS;
 		this.EQ = EQ;
 		this.SV = SV;
 	}
@@ -21,14 +18,8 @@ public class Simulator{
 		
 		SV.initialPrint();
 		while(SS.isRunning() == true){
-			if(EQ.numberOfEventsInQueue() != 0){
-				Event currentEvent = EQ.getFirstEvent();
-				if(currentEvent.getEventType() == "STOP"){
-					break;
-				}
-				currentEvent.Execute(SSeq,SS);
-			}
-			
+			Event currentEvent = EQ.getFirstEvent();
+			currentEvent.Execute(SSeq,SS);
 		}
 		SV.endPrint();
 	}
