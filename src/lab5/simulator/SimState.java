@@ -11,10 +11,10 @@ public class SimState extends Observable {
 	public void setRUNNING(Boolean bool){
 		RUNNING = (bool == true) ? true : false;
 	}
-	public void observable(Event e){
+	public void observable(Event event){
 		//System.out.println("Observable");
 		setChanged();
-		notifyObservers();
+		notifyObservers(event);
 	}
 	/*public SimState(){
 		

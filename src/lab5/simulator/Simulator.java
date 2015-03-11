@@ -18,14 +18,14 @@ public class Simulator{
 		//System.out.println("lsjhdol");
 		SV.initialPrint();
 		while(SS.isRunning() == true){
-			System.out.println("Simulator loops");
+			//System.out.println("Simulator loops");
 			Event currentEvent = EQ.getFirstEvent();
 			//System.out.println(currentEvent.getEventType());
-			System.out.println(EQ.toString());
+			//System.out.println(EQ.toString());
 			
 			//System.out.println(EQ.eventQueue);
 			currentEvent.Execute(SSeq,SS);
-			System.out.println("currentEvent executed");
+			//System.out.println("currentEvent executed");
 			
 		}
 		SV.endPrint();

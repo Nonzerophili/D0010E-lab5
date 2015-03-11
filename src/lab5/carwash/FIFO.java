@@ -2,32 +2,34 @@ package lab5.carwash;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+import lab5.simulator.Event;
+
 public class FIFO{
 
-	static ArrayList<CarWashEvent> carQueue = new ArrayList<CarWashEvent>();
+	static ArrayList<Event> carQueue = new ArrayList<Event>();
 	
-	public boolean isEmpty(){
+	public static boolean isEmpty(){
 		return carQueue.isEmpty();
 	}
-	public void add(CarWashEvent carEvent){
-		carQueue.add(carEvent);
+	public static void add(Event event){
+		carQueue.add(event);
 	}
-	public void removeFirst() throws NoSuchElementException{
+	public static void removeFirst() throws NoSuchElementException{
 		if(carQueue.size() == 0){
 			throw new NoSuchElementException();
 		}
 		carQueue.remove(0);
 	}
-	public CarWashEvent getFirst() throws NoSuchElementException{
+	public static Event getFirst() throws NoSuchElementException{
 		if(carQueue.size() == 0){
 			throw new NoSuchElementException();
 		}
 		return carQueue.get(0);
 	}
-	public int getSize(){
+	public static int getSize(){
 		return carQueue.size();
 	}
-	public int maxSize(){
+	public static int maxSize(){
 		return CarWashState.maxQueueSize;
 	}
 }

@@ -62,7 +62,7 @@ public class CarWashState extends SimState{
 	}
 	public void updateTotalQueueTime(Event e){
 		//totalQueueTime = (currentTime - previousCurrentTime)*FIFO.getSize();
-		totalQueueTime = (e.time - previousTotalQueueTime) * FIFO.carQueue.size();
+		totalQueueTime += (e.time - previousTotalQueueTime) * FIFO.carQueue.size();
 		previousTotalQueueTime = e.time;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------

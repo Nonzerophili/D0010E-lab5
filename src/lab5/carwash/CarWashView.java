@@ -1,4 +1,6 @@
 package lab5.carwash;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Observable;
 
 import lab5.simulator.Event;
@@ -13,7 +15,7 @@ public class CarWashView extends SimView{
 	Car car;
 	
 	public CarWashView(SimState CWS){		//hmm.
-		//super(CWS);
+		super(CWS);
 		//CWS = (CarWashState) SS;
 	}
 	
@@ -26,8 +28,8 @@ public class CarWashView extends SimView{
 		System.out.println("Seed = " + CarWashState.seed);
 		System.out.println("Max Queue size: "+ CarWashState.maxQueueSize);
 		System.out.println("----------------------------------------------------");
-		System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n","Time","Fast","Slow","ID","Event","IdleTime","QueueTime","QueueSize","Rejected");
-		System.out.printf("%-4.2f%9s%9s%7s%11s%13.2f%14.2f%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"-","Start",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
+		System.out.printf("%4s %9s %9s %7s %11s %13s %14s %14s %13s\n","Time","Fast","Slow","ID","Event","IdleTime","QueueTime","QueueSize","Rejected");
+		//System.out.printf("%-4.2f%9s%9s%7s%11s%13.2f%14.2f%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"-","Start",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
 	}
 	
 	/*obs is the object that extends Observable and has the notifyObservers method. 
@@ -37,22 +39,63 @@ public class CarWashView extends SimView{
 	
 	public void update(Observable obs, Object obj){	// obs = SimState, 
 		
+		NumberFormat fmt = new DecimalFormat("#0.00");
 		//System.out.println("test");
 		//CarWashEvent carWashEvent = (CarWashEvent)obj;
 		
-		//Event temp = (Event) obj;
-		if(obj instanceof Start){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"ID","Start",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
+		Event temp = (Event) obj;
+		//System.out.println(temp);
+		
+		if(temp instanceof Start){
+			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+					fmt.format(temp.time),
+					CarWashState.availableFastMachines, 
+					CarWashState.availableSlowMachines,
+					"ID",
+					"Start",
+					fmt.format(CarWashState.totalIdleTime),
+					CarWashState.totalQueueTime,
+					FIFO.getSize(),
+					CarWashState.rejectedCars());
 		}
-		if(obj instanceof Stop){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"-","Stop",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
+		if(temp instanceof Stop){
+			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+					fmt.format(temp.time),
+					CarWashState.availableFastMachines,
+					CarWashState.availableSlowMachines,
+					"-",
+					"Stop",
+					fmt.format(CarWashState.totalIdleTime),
+					fmt.format(CarWashState.totalQueueTime),
+					FIFO.getSize(),
+					CarWashState.rejectedCars());
 		}
-		if(obj instanceof Arrive){
-			//Arrive temp2 = (Arrive) temp;
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"ID","Arrive",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
+		if(temp instanceof Arrive){
+			Arrive temp2 = (Arrive) temp;
+			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+					fmt.format(temp.time),
+					CarWashState.availableFastMachines,
+					CarWashState.availableSlowMachines,
+					temp2.car.carID(),
+					//"ID",
+					"Arrive",
+					fmt.format(CarWashState.totalIdleTime),
+					fmt.format(CarWashState.totalQueueTime),
+					FIFO.getSize(),
+					CarWashState.rejectedCars());
 		}
-		if(obj instanceof Leave){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"-","Leave",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
+		if(temp instanceof Leave){
+			Leave temp2 = (Leave) temp;
+			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+					fmt.format(temp.time),
+					CarWashState.availableFastMachines,
+					CarWashState.availableSlowMachines,
+					temp2.car.carID(),
+					"Leave",
+					fmt.format(CarWashState.totalIdleTime),
+					fmt.format(CarWashState.totalQueueTime),
+					FIFO.getSize(),
+					CarWashState.rejectedCars());
 		}
 		
 		/*if(CarWashState.currentEvent == "ARRIVE"){
@@ -66,10 +109,11 @@ public class CarWashView extends SimView{
 		}*/
 	}
 	public void endPrint(){
+		NumberFormat fmt = new DecimalFormat("#0.00");
 		System.out.println("----------------------------------------------------");
-		System.out.println("Total idle machine time: " + CarWashState.totalIdleTime);
-		System.out.println("Total queueing time: " + CarWashState.totalQueueTime);
-		System.out.println("Mean queueing time: " + CarWashState.totalQueueTime/(CarFactory.numberOfCars() - CarWashState.rejectedCars()));	//rejected ?
+		System.out.println("Total idle machine time: " + fmt.format(CarWashState.totalIdleTime));
+		System.out.println("Total queueing time: " + fmt.format(CarWashState.totalQueueTime));
+		System.out.println("Mean queueing time: " + fmt.format(CarWashState.totalQueueTime/(CarFactory.numberOfCars() - CarWashState.rejectedCars())));	//rejected ?
 		System.out.println("Rejected cars: " + CarWashState.rejectedCars());
 	}
 }

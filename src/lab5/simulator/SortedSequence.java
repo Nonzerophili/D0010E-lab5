@@ -21,6 +21,7 @@ public class SortedSequence{
 				}
 				else if(i == EQ.getArray().size()-1){		//Ifall i = sista index.
 					EQ.getArray().add(event);
+					break;
 				}
 			}
 		}
