@@ -5,7 +5,7 @@ import lab5.simulator.SortedSequence;
 
 public class CarWashEvent extends Event {
 	
-	static FIFO FIFO;
+	//FIFO FIFO;
 	private Car car;
 	private CarWashState CWS;
 	private String eventType = "";
@@ -22,12 +22,13 @@ public class CarWashEvent extends Event {
 		CWS = (CarWashState) SS;
 		this.car = car;
 	}
-	public CarWashEvent(String eventType, SimState SS){	//START
+	public CarWashEvent(String eventType, SimState SS){						//START
 		this.eventType = eventType;
+		CWS = (CarWashState) SS;
 		time = 0.00;
 	}
 													//Dummy variable
-	public CarWashEvent(String eventType, SimState SS, Boolean isStop){	//STOP
+	public CarWashEvent(String eventType, SimState SS, Boolean isStop){		//STOP
 		this.eventType = eventType;
 		time = 15.00;
 	}
@@ -35,24 +36,29 @@ public class CarWashEvent extends Event {
 	public void Execute(SortedSequence SSeq, SimState SS){
 		
 		if(this.eventType == "START"){
+			CarWashState.currentEvent = "START";
 			SS.setRUNNING(true);
-			SSeq.sortEvents(new CarWashEvent("ARRIVE",SS));	//Skapar ett nytt ARRIVE-Event medans ett ARRIVE-Event körs.
-			SS.observable(this);									//Skickar in nuvarande Event till SimState som i sin tur uppdaterar.
+			SSeq.sortEvents(new CarWashEvent("ARRIVE",SS, SSeq));	//Skapar ett nytt ARRIVE-Event medans ett ARRIVE-Event körs.
+			CWS.observable(this); // kanske					//Skickar in nuvarande Event till SimState som i sin tur uppdaterar.
 		}
 		if(this.eventType == "STOP"){
+			CarWashState.currentEvent = "STOP";
+			System.out.println(SS.isRunning()+"INNAN");
 			SS.setRUNNING(false);
+			System.out.println(SS.isRunning()+"EFTER");
 			CarWashState CWS = (CarWashState) SS;
 			CWS.updateTotalQueueTime(this);
 			CWS.observable(this);
 		}
 		if(this.eventType == "ARRIVE"){
+			CarWashState.currentEvent = "ARRIVE";
 			SSeq.sortEvents(new CarWashEvent("ARRIVE",SS, SSeq));
 			CWS.updateTotalQueueTime(this);
 			
 			if(CarWashState.fastAvailable()){
 				CarWashState.availableFastMachines--;
 				car.previousMachine = "fast";
-				washTime = CWS.getFastWashTime();	//Beräkna washTime för detta Arrive-Objekt (FAST Machine)
+				washTime = CWS.getFastWashTime();								//Beräkna washTime för detta Arrive-Objekt (FAST Machine)
 				SSeq.sortEvents(new CarWashEvent("LEAVE",CWS,car,time,washTime)); //Skapar ett nytt leave objekt som får all ARRIVE info.
 				CWS.updateTotalIdleTime(this);
 				CWS.observable(this);
@@ -61,11 +67,12 @@ public class CarWashEvent extends Event {
 				CarWashState.availableSlowMachines--;
 				car.previousMachine = "slow";
 				washTime = CWS.getSlowWashTime();	//Beräkna washTime för detta Arrive-Objekt (SLOW Machine)
+				//System.out.println();
 				SSeq.sortEvents(new CarWashEvent("LEAVE",CWS,car,time,washTime));
 				CWS.updateTotalIdleTime(this);
 				CWS.observable(this);
 				
-			}else if((CarWashState.fastAvailable() == false && CarWashState.slowAvailable() == false) && FIFO.getSize()<FIFO.maxSize()){	//Om FIFO:n inte är full
+			}else if((CarWashState.fastAvailable() == false && CarWashState.slowAvailable() == false) && FIFO.carQueue.size()<FIFO.maxSize()){	//Om FIFO:n inte är full
 				car.previousMachine = "FIFO";
 				CWS.observable(this);
 				FIFO.add(new CarWashEvent("LEAVE",CWS,car,time,washTime));
@@ -76,31 +83,33 @@ public class CarWashEvent extends Event {
 		}
 		if(this.eventType == "LEAVE"){
 			
+			//System.out.println("LEAVE EXECUTE");
 			//Om leave inte är i fast eller slow. Så måste den vänta på att dess arrive ska ske. Som i sin tur ändrar på previousmachine till antingen fast eller slow.
 			
+			CarWashState.currentEvent = "LEAVE";
 			CWS.updateTotalQueueTime(this);
 			if(car.previousMachine == "Fast"){
 				CarWashState.availableFastMachines++;
 				if(FIFO.isEmpty() == false){	//Vi (Endast där vi kan plocka ifrån)prioriterar bilar som är i FIFOn
-					CarWashEvent firstInLine = FIFO.getFirst();
-					FIFO.removeFirst();
+					/*CarWashEvent firstInLine = FIFO.getFirst();
+					FIFO.removeFirst();	//Index 0?
 					firstInLine.time = this.time + CWS.getFastWashTime();	//Detta Leave event var i en Fast maskin tidigare. På så sätt vet vi att en fast är tom. (Räknar ut en fast wash time)
 					firstInLine.car.previousMachine = "Fast";
 					CarWashState.availableFastMachines--;
 					SSeq.sortEvents(firstInLine);
-					CWS.observable(this);
+					CWS.observable(this);*/
 				}
 			}
 			if(car.previousMachine == "Slow"){
 				CarWashState.availableSlowMachines++;
 				if(FIFO.isEmpty() == false){	//Vi prioriterar bilar som är i FIFOn
-					CarWashEvent firstInLine = FIFO.getFirst();
+					/*CarWashEvent firstInLine = FIFO.getFirst();
 					FIFO.removeFirst();
 					firstInLine.time = this.time + CWS.getSlowWashTime();	//Detta Leave event var i en Fast maskin tidigare. På så sätt vet vi att en fast är tom. (Räknar ut en fast wash time)
 					firstInLine.car.previousMachine = "Slow";
 					CarWashState.availableSlowMachines--;
 					SSeq.sortEvents(firstInLine);
-					CWS.observable(this);
+					CWS.observable(this);*/
 				}
 			}
 		}
@@ -110,5 +119,8 @@ public class CarWashEvent extends Event {
 	}
 	public String getEventType(){
 		return eventType;
+	}
+	public Car getCar(){
+		return car;
 	}
 }

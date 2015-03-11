@@ -6,16 +6,16 @@ import lab5.simulator.SimState;
 
 public class CarWashState extends SimState{
 
-	static FIFO FIFO;
+	//FIFO FIFO;
 
-	static int totalFastMachines = 2;
-	static int totalSlowMachines = 2;
+	private static int totalFastMachines = 2;
+	private static int totalSlowMachines = 2;
 	static int availableFastMachines = 2;
 	static int availableSlowMachines = 2;
 	
 	static int maxQueueSize = 5;
-	static int queueSize = 0;
 	static int rejectedCars = 0;
+	static String currentEvent = "";
 	
 	//-----------------------------------------------TIME------------------------------------------------------------------------------
 	static double distributionFastLower = 2.8;
@@ -50,10 +50,10 @@ public class CarWashState extends SimState{
 		return currentTime;
 	}
 	public double getFastWashTime(){					//Wash time for the fast machine.
-		return slowMachineTime.next();
+		return fastMachineTime.next();
 	}
 	public double getSlowWashTime(){					//Wash time for the slow machine.
-		return fastMachineTime.next();
+		return slowMachineTime.next();
 	}
 	public void updateTotalIdleTime(Event e){			//Takes the event.time (which is the currentTime when the Event should happen)
 		//totalIdleTime = currentTime * (availableFastMachines + availableSlowMachines) + previousTotalIdleTime;
@@ -62,7 +62,7 @@ public class CarWashState extends SimState{
 	}
 	public void updateTotalQueueTime(Event e){
 		//totalQueueTime = (currentTime - previousCurrentTime)*FIFO.getSize();
-		totalQueueTime = (e.time - previousTotalQueueTime) * FIFO.getSize();
+		totalQueueTime = (e.time - previousTotalQueueTime) * FIFO.carQueue.size();
 		previousTotalQueueTime = e.time;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------
