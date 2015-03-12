@@ -1,6 +1,9 @@
 package lab5.random;
 import java.util.Random;
 
+/**
+ * This class is used for computing the next arrival time of an event.
+ */
 public class ExponentialRandomStream {
 	
 	private Random rand;
@@ -16,6 +19,9 @@ public class ExponentialRandomStream {
 	    this.lambda = lambda;
 	}
 	  
+	/**
+	 * @return Returns the double value that is needed for the event time.
+	 */
 	public double next() {
 	  	return -Math.log(rand.nextDouble())/lambda;
 	}

@@ -8,17 +8,27 @@ import lab5.simulator.SimState;
 import lab5.simulator.SimView;
 import lab5.carwash.CarWashState;
 
+/**
+ * This class prints the state of the simulation. First we have an initial print and then an update method that prints the state each time and event is executed.
+ * Lastly we have an end print which prints and summarize the state after all of the events have happened.
+ */
 public class CarWashView extends SimView{
 
 	CarWashState CWS;
-	static FIFO FIFO;
 	Car car;
 	
-	public CarWashView(SimState CWS){		//hmm.
+	/**
+	 * Class constructor. super(CWS) call the parent constructor with CWS as an argument.
+	 * @param CWS CarWashState parent constructor call with CWS.
+	 */
+	public CarWashView(SimState CWS){
 		super(CWS);
-		//CWS = (CarWashState) SS;
 	}
-	
+
+	/**
+	 * Prints the initial print of the carwash state. This method is called from the simulator class.
+	 * This print is static. The states will change while the events are being executed.
+	 */
 	public void initialPrint(){
 		System.out.println("Fast CarWashes: "+ CarWashState.getTotalFastMachines());
 		System.out.println("Slow CarWashes: "+ CarWashState.getTotalSlowMachines());
@@ -29,37 +39,33 @@ public class CarWashView extends SimView{
 		System.out.println("Max Queue size: "+ CarWashState.maxQueueSize);
 		System.out.println("----------------------------------------------------");
 		System.out.printf("%4s %9s %9s %7s %11s %13s %14s %14s %13s\n","Time","Fast","Slow","ID","Event","IdleTime","QueueTime","QueueSize","Rejected");
-		//System.out.printf("%-4.2f%9s%9s%7s%11s%13.2f%14.2f%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"-","Start",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
 	}
 	
-	/*obs is the object that extends Observable and has the notifyObservers method. 
-	 * You can cast obs to your object that extends Observable and then call the methods you need. 
-	 * obj is the optional parameter that can be passed to notifyObservers.
-	 * */
-	
-	public void update(Observable obs, Object obj){	// obs = SimState, 
+	/**
+	 * This method is called everytime there is a call to the notifyObservers() method. Every time we enter an event's execute method. This method will be
+	 * called and the state will be printed.
+	 * Since the type of the event is sent to the notifyObserver() method we can access this type from the Object Obj which is sent as and parameter in the
+	 * update method.
+	 */
+	public void update(Observable obs, Object obj){ 
 		
 		NumberFormat fmt = new DecimalFormat("#0.00");
-		//System.out.println("test");
-		//CarWashEvent carWashEvent = (CarWashEvent)obj;
-		
 		Event temp = (Event) obj;
-		//System.out.println(temp);
 		
 		if(temp instanceof Start){
-			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+			System.out.printf("%-5s %6s %9s %9s %11s %11.4s %14s %12s %12s\n",
 					fmt.format(temp.time),
 					CarWashState.availableFastMachines, 
 					CarWashState.availableSlowMachines,
-					"ID",
+					"-",
 					"Start",
 					fmt.format(CarWashState.totalIdleTime),
-					CarWashState.totalQueueTime,
+					fmt.format(CarWashState.totalQueueTime),
 					FIFO.getSize(),
 					CarWashState.rejectedCars());
 		}
 		if(temp instanceof Stop){
-			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+			System.out.printf("%-5s %6s %9s %9s %11s %11.4s %14s %12s %12s\n",
 					fmt.format(temp.time),
 					CarWashState.availableFastMachines,
 					CarWashState.availableSlowMachines,
@@ -72,7 +78,7 @@ public class CarWashView extends SimView{
 		}
 		if(temp instanceof Arrive){
 			Arrive temp2 = (Arrive) temp;
-			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+			System.out.printf("%-5s %6s %9s %9s %11s %11.4s %14s %12s %12s\n",
 					fmt.format(temp.time),
 					CarWashState.availableFastMachines,
 					CarWashState.availableSlowMachines,
@@ -86,7 +92,7 @@ public class CarWashView extends SimView{
 		}
 		if(temp instanceof Leave){
 			Leave temp2 = (Leave) temp;
-			System.out.printf("%4s %9s %9s %7s %11s %7.4s %14s %14s %13s\n",
+			System.out.printf("%-5s %6s %9s %9s %11s %11.4s %14s %12s %12s\n",
 					fmt.format(temp.time),
 					CarWashState.availableFastMachines,
 					CarWashState.availableSlowMachines,
@@ -97,17 +103,12 @@ public class CarWashView extends SimView{
 					FIFO.getSize(),
 					CarWashState.rejectedCars());
 		}
-		
-		/*if(CarWashState.currentEvent == "ARRIVE"){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"ID","Arrive",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
-		}
-		if(CarWashState.currentEvent == "START"){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"ID","Start",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
-		}
-		if(CarWashState.currentEvent == "LEAVE"){
-			System.out.printf("%4s%9s%9s%7s%11s%13s%14s%14s%13s\n",CarWashState.currentTime,CarWashState.availableFastMachines,CarWashState.availableSlowMachines,"-","Leave",CarWashState.totalIdleTime,CarWashState.totalQueueTime,FIFO.getSize(),CarWashState.rejectedCars());
-		}*/
 	}
+	
+	/**
+	 * This is the method that will be invoked after all of the events have happened.
+	 * Add up the total times and prints them.
+	 */
 	public void endPrint(){
 		NumberFormat fmt = new DecimalFormat("#0.00");
 		System.out.println("----------------------------------------------------");

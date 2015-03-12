@@ -4,9 +4,10 @@ import lab5.random.UniformRandomStream;
 import lab5.simulator.Event;
 import lab5.simulator.SimState;
 
+/**
+ * This class keeps track of the state of the carwash.
+ */
 public class CarWashState extends SimState{
-
-	//FIFO FIFO;
 
 	private static int totalFastMachines = 2;
 	private static int totalSlowMachines = 2;
@@ -17,7 +18,6 @@ public class CarWashState extends SimState{
 	static int rejectedCars = 0;
 	static String currentEvent = "";
 	
-	//-----------------------------------------------TIME------------------------------------------------------------------------------
 	static double distributionFastLower = 2.8;
 	static double distributionFastUpper = 4.6;
 	static double distributionSlowLower = 3.5;
@@ -25,61 +25,96 @@ public class CarWashState extends SimState{
 	
 	static double currentTime = 0.00;
 	
-	static double totalWashTime = 0.00;
 	static double totalQueueTime = 0.00;
 	static double totalIdleTime = 0.00;
 	
-	double previousCurrentTime = 0.00;
-	double previousTotalIdleTime = 0.00;
-	double previousTotalQueueTime = 0.00;
+	private double previousCurrentTime = 0.00;
+	private double previousTotalQueueTime = 0.00;
 	
 	static double lambda = 2;
 	static int seed = 1234;
 	
 	private UniformRandomStream slowMachineTime = new UniformRandomStream(distributionSlowLower,distributionSlowUpper,seed);
 	private UniformRandomStream fastMachineTime  = new UniformRandomStream(distributionFastLower,distributionFastUpper,seed);
-	
 	private ExponentialRandomStream timeToNextCarArrival = new ExponentialRandomStream(lambda,seed);
 	
-	/*	• For car arrivals ExponentialRandomStream(2, 1234) and ExponentialRandomStream(1.5, 1234),
-		• for fast machines UniformRandomStream(2.8, 4.6, 1234) and UniformRandomStream(2.8, 5.6, 1234), and
-		• for slow machines UniformRandomStream(3.5, 6.7, 1234) and UniformRandomStream(4.5, 6.7, 1234), respectively.*/
-	
-	public double newEventTime(){						//Calculate the time for the new Event.
+	/**
+	 * Each event must have an arrival time which states when the event will occur.
+	 * This method is called each time and event is created.
+	 * 
+	 * @return Returns the arrival time for the event.
+	 */
+	double newEventTime(){						
 		currentTime += timeToNextCarArrival.next();
 		return currentTime;
 	}
-	public double getFastWashTime(){					//Wash time for the fast machine.
+	
+	/**
+	 * @return Returns the time that the event will spend in the fast carwash.
+	 */
+	double getFastWashTime(){
 		return fastMachineTime.next();
 	}
-	public double getSlowWashTime(){					//Wash time for the slow machine.
+
+	/**
+	 * @return Returns the time that the event will spend in the slow carwash.
+	 */
+	double getSlowWashTime(){
 		return slowMachineTime.next();
 	}
-	public void updateTotalIdleTime(Event e){			//Takes the event.time (which is the currentTime when the Event should happen)
-		//totalIdleTime = currentTime * (availableFastMachines + availableSlowMachines) + previousTotalIdleTime;
-		totalIdleTime += (e.time - previousTotalIdleTime) * (availableFastMachines + availableSlowMachines);
-		previousTotalIdleTime = e.time;
+	
+	/**
+	 * This method updates the totalIdle time. Which is the time that the machines are empty, but the simulation is running.
+	 * 
+	 * @param e The event that is being processed.
+	 */
+	void updateTotalIdleTime(Event e){
+		totalIdleTime += (e.time - previousCurrentTime) * (availableFastMachines + availableSlowMachines);
+		previousCurrentTime = e.time;
 	}
-	public void updateTotalQueueTime(Event e){
-		//totalQueueTime = (currentTime - previousCurrentTime)*FIFO.getSize();
+	
+	/**
+	 * This method updates the totalQueue time. Which is the time that the cars have to spend in the FIFO queue before entering the machines.
+	 * @param e
+	 */
+	void updateTotalQueueTime(Event e){
 		totalQueueTime += (e.time - previousTotalQueueTime) * FIFO.carQueue.size();
 		previousTotalQueueTime = e.time;
 	}
-	//----------------------------------------------------------------------------------------------------------------------------------
 	
-	public static boolean fastAvailable(){
+	/**
+	 * Checks if the fast machine can accept a car. If the machine is full. The car will have to either go to the FIFO or get rejected.
+	 * @return returns true if there is a fast machine that is empty.
+	 */
+	static boolean fastAvailable(){
 		return (availableFastMachines > 0) ? true : false;
 	}
-	public static boolean slowAvailable(){
+	
+	/**
+	 * Checks if the fast machine can accept a car. If the machine is full. The car will have to either go to the FIFO or get rejected.
+	 * @return returns true if there is a slow machine that is empty.
+	 */
+	static boolean slowAvailable(){
 		return (availableSlowMachines > 0) ? true : false;
 	}
-	public static int getTotalSlowMachines(){
+	
+	/**
+	 * @return Returns the total amount of slow carwashes that exist in the simulation.
+	 */
+	static int getTotalSlowMachines(){
 		return totalSlowMachines;
 	}
-	public static int getTotalFastMachines(){
+	
+	/**
+	 * @return Returns the total amount of slow carwashes that exist in the simulation.
+	 */
+	static int getTotalFastMachines(){
 		return totalFastMachines;
 	}
-	public static int rejectedCars(){
+	/**
+	 * @return Returns the total amount of car that have been rejected from the simulation. (Due to FIFO maxSize reached)
+	 */
+	static int rejectedCars(){
 		return rejectedCars;
 	}
 }

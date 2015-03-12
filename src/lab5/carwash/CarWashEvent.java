@@ -5,12 +5,10 @@ import lab5.simulator.SortedSequence;
 
 public class CarWashEvent extends Event {
 	
-	//FIFO FIFO;
 	private Car car;
 	private CarWashState CWS;
 	private String eventType = "";
 	private double washTime;
-	//private String previousMachine = "";	//Placeholder for the Car car previousMachine
 
 	public CarWashEvent(String eventType, SimState SS, SortedSequence SSeq){	//ARRIVE
 		this.eventType = eventType;

@@ -1,6 +1,9 @@
 package lab5.carwash;
 
-public class Car {
+/**
+ * This class constructor creates a car object. Each car has its own unique carID.
+ */
+public class Car{
 	
 	private int carID;
 	String previousMachine = "";
@@ -13,12 +16,15 @@ public class Car {
 		this.carID = carID;
 	}
 	/**
-	 * Each Car has it's own ID.
-	 * @return the ID of the Car.
+	 * @return ID of the Car.
 	 */
 	public int carID(){
 		return carID;
 	}
+	/**
+	 * 
+	 * @return The method returns which carwash machine the car left.
+	 */
 	public String previousMachine(){
 		return previousMachine;
 	}

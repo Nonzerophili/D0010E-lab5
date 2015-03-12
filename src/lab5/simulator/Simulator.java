@@ -1,6 +1,9 @@
 package lab5.simulator;
 import lab5.simulator.EventQueue;
 
+/**
+ * The simulator is responsible for calling each event's execute method.
+ */
 public class Simulator{
 	private SortedSequence SSeq;
 	private EventQueue EQ;
@@ -14,19 +17,15 @@ public class Simulator{
 		this.SV = SV;
 	}
 	
+	/**
+	 * run() is called from the Main method. As long as the SimState RUNNING variable is set to true 
+	 * this method will keep go through the EventQueue and call each events execute.
+	 */
 	public void run(){
-		//System.out.println("lsjhdol");
 		SV.initialPrint();
 		while(SS.isRunning() == true){
-			//System.out.println("Simulator loops");
 			Event currentEvent = EQ.getFirstEvent();
-			//System.out.println(currentEvent.getEventType());
-			//System.out.println(EQ.toString());
-			
-			//System.out.println(EQ.eventQueue);
 			currentEvent.Execute(SSeq,SS);
-			//System.out.println("currentEvent executed");
-			
 		}
 		SV.endPrint();
 	}
